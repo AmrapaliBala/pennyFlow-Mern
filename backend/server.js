@@ -7,6 +7,7 @@ import transactionRoutes from './routes/transactionRoutes.js'
 import insightsRoutes from './routes/insightsRoutes.js'
 
 const app = express()
+app.set('trust proxy', 1);
 const port = process.env.PORT || 5000
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173'
 

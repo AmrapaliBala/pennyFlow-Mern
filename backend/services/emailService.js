@@ -25,6 +25,9 @@ const getEmailTransporter = () => {
       user: process.env.EMAIL_USER.trim(),
       pass: process.env.EMAIL_PASSWORD.trim(),
     },
+    connectionTimeout: 10000, // 10s timeout to connect to SMTP server
+    greetingTimeout: 10000,   // 10s timeout to receive initial SMTP banner
+    socketTimeout: 15000,     // 15s timeout for socket inactivity
   })
 }
 
