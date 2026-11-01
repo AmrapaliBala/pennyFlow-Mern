@@ -45,54 +45,54 @@ function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-emerald-100 via-[#e7f7ef] to-emerald-50 px-4 sm:px-6 lg:px-10 py-8 text-slate-800">
-      <section id="login" className="container relative mx-auto flex items-center justify-center min-h-[calc(100vh-4rem)] max-w-2xl">
-        <div className="w-full rounded-[2rem] bg-[#f6fcf8]/95 px-6 sm:px-10 py-10 shadow-[0_16px_40px_rgba(20,83,45,0.28)]">
+    <main className="min-h-screen bg-gradient-to-br from-emerald-100 via-[#e7f7ef] to-emerald-50 px-3 sm:px-6 lg:px-10 py-6 sm:py-8 text-slate-800">
+      <section id="login" className="container relative mx-auto flex items-center justify-center min-h-[calc(100vh-3rem)] sm:min-h-[calc(100vh-4rem)] max-w-2xl">
+        <div className="w-full rounded-[1.5rem] sm:rounded-[2rem] bg-[#f6fcf8]/95 px-4 sm:px-10 py-6 sm:py-10 shadow-[0_16px_40px_rgba(20,83,45,0.28)]">
           <header className="text-center">
             <div className="flex items-center justify-center gap-2 text-emerald-500">
-              <CircleDollarSign aria-hidden="true" className="h-9 w-9 fill-amber-300 stroke-emerald-600"/>
-              <h1 className="font-serif text-4xl font-black tracking-tight sm:text-5xl">
+              <CircleDollarSign aria-hidden="true" className="h-7 w-7 sm:h-9 sm:w-9 fill-amber-300 stroke-emerald-600"/>
+              <h1 className="font-serif text-3xl sm:text-5xl font-black tracking-tight">
                 Penny Flow
               </h1>
             </div>
 
-            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">
+            <p className="mt-4 sm:mt-8 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600">
               Welcome back
             </p>
-            <h2 className="mt-3 text-3xl font-bold text-slate-800">
+            <h2 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-slate-800">
               Sign in to your account
             </h2>
-            <p className="mt-3 text-slate-600">
+            <p className="mt-1.5 sm:mt-3 text-sm sm:text-base text-slate-600">
               Continue keeping your spending on track.
             </p>
           </header>
 
-          <form className="mt-8 rounded-[1.5rem] bg-[#f8fffb] p-6 sm:p-7 shadow-[0_8px_15px_rgba(15,61,44,0.22)]" onSubmit={handleSubmit}>
-            <div className="space-y-5">
+          <form className="mt-6 sm:mt-8 rounded-[1.25rem] sm:rounded-[1.5rem] bg-[#f8fffb] p-4 sm:p-7 shadow-[0_8px_15px_rgba(15,61,44,0.22)]" onSubmit={handleSubmit}>
+            <div className="space-y-4 sm:space-y-5">
               <label className="block">
-                <span className="text-lg text-slate-700">Email address</span>
-                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required className="mt-2 w-full rounded-xl border-2 border-slate-700 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"/>
+                <span className="text-base sm:text-lg text-slate-700">Email address</span>
+                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" required className="mt-1.5 sm:mt-2 w-full rounded-xl border-2 border-slate-700 bg-white px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"/>
               </label>
 
               <label className="block">
-                <span className="text-lg text-slate-700">Password</span>
-                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Enter your password" required className="mt-2 w-full rounded-xl border-2 border-slate-700 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"/>
+                <span className="text-base sm:text-lg text-slate-700">Password</span>
+                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Enter your password" required className="mt-1.5 sm:mt-2 w-full rounded-xl border-2 border-slate-700 bg-white px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"/>
               </label>
             </div>
 
-            <p className="mt-3 text-right text-sm">
+            <p className="mt-2.5 sm:mt-3 text-right text-xs sm:text-sm">
               <Link to="/forgot-password" className="font-semibold text-emerald-700 underline">
                 Forgot password?
               </Link>
             </p>
 
             {error && (
-              <p role="alert" className="mt-5 rounded-xl bg-red-100 px-4 py-3 text-sm text-red-800">
+              <p role="alert" className="mt-4 sm:mt-5 rounded-xl bg-red-100 px-3.5 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-red-800">
                 {error}
               </p>
             )}
 
-            <button type="submit" disabled={isSubmitting} className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-4 text-lg font-semibold text-white shadow-[0_5px_10px_rgba(22,163,74,0.35)] transition hover:bg-emerald-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+            <button type="submit" disabled={isSubmitting} className="mt-5 sm:mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 sm:px-5 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white shadow-[0_5px_10px_rgba(22,163,74,0.35)] transition hover:bg-emerald-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
               <LogIn aria-hidden="true" className="h-5 w-5" />
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
@@ -100,7 +100,7 @@ function LoginPage() {
             <GoogleSignInButton onSuccess={handleGoogleSuccess} onError={() => setError('Google sign-in was cancelled or failed.')}/>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-600">
+          <p className="mt-5 sm:mt-6 text-center text-xs sm:text-sm text-slate-600">
             New to Penny Flow?{' '}
             <Link to="/register" className="font-semibold text-emerald-700 underline">
               Create an account
