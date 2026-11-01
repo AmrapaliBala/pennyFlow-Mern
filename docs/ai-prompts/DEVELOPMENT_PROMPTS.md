@@ -15,6 +15,7 @@ This document archives the chronological prompts, architectural design queries, 
 8. [Phase 8: UI Polishing & Component Refactoring](#phase-8-ui-polishing--component-refactoring)
 9. [Phase 9: Production Deployment on Render](#phase-9-production-deployment-on-render)
 10. [Phase 10: Production Incident Case Studies & Root Cause Analysis](#phase-10-production-incident-case-studies--root-cause-analysis)
+11. [Phase 11: Testing, Code Auditing & Full Responsive Optimization](#phase-11-testing-code-auditing--full-responsive-optimization)
 
 ---
 
@@ -959,9 +960,9 @@ The following environment variables were updated in:
 | `EMAIL_HOST` | `smtp-relay.brevo.com` |
 | `EMAIL_PORT` | `2525` |
 | `EMAIL_SECURE` | `false` |
-| `EMAIL_USER` | `b840ff001@smtp-brevo.com` |
-| `EMAIL_PASSWORD` | *(Configured in Render)* |
-| `EMAIL_FROM` | `amrapalibala720@gmail.com` |
+| `EMAIL_USER` | *(Configured Brevo SMTP login identifier)* |
+| `EMAIL_PASSWORD` | *(Configured Brevo SMTP password)* |
+| `EMAIL_FROM` | *(Configured verified sender email)* |
 
 With `EMAIL_SECURE=false`, Nodemailer initiates a plain socket and upgrades to TLS via STARTTLS. Port 2525 was not blocked by Render's firewall and resolved the issue immediately.
 
@@ -1016,3 +1017,82 @@ https://pennyflow-mern.onrender.com/api/auth/login
 
 #### 3. Why Rebuilding Was Necessary
 Vite bakes variables prefixed with `VITE_*` into static JavaScript bundles at **build time**. Updating the environment variable in Render's dashboard alone does not alter already-compiled static JavaScript files. Running **Manual Deploy → Clear build cache & deploy** forced Vite to rebuild the bundle with the corrected `/api` path.
+
+---
+
+## Phase 11: Testing, Code Auditing & Full Responsive Optimization
+
+### Prompt 38: Automated Testing Suite Design
+> Analyse the entire PennyFlow project (frontend, backend) and implement an appropriate automated testing setup for the frontend and backend.
+> 
+> **Requirements:**
+> - Examine the existing architecture, dependencies, API endpoints, components, authentication flow and project structure.
+> - Select suitable testing tools based on the existing tech stack (e.g. Vitest and React Testing Library for the frontend, and Jest or Vitest with Supertest for the backend).
+> - Implement essential unit and integration tests for critical functionality, including authentication, API routes, form validation, transaction operations and error handling.
+> - Configure appropriate test scripts in the relevant package.json files.
+> - Use mocks for external services such as MongoDB, email services and Google OAuth wherever appropriate.
+> 
+> **Strict instructions:**
+> - Analyse before implementing.
+> - Make only necessary changes.
+> - Do not refactor existing application code unnecessarily.
+> - Do not alter existing functionality or production configurations.
+> - Do not expose or hardcode credentials.
+> - Avoid unnecessary dependencies and duplicate testing tools.
+> - Run the tests and report their results.
+> - Provide a brief implementation plan first, including testing tools and files to modify. Wait for my approval before making changes.
+> - After approval, implement the tests and provide a summary of test coverage, modified files, and remaining limitations.
+
+### Prompt 39: Responsive Optimization for Dashboard Transaction Components
+> Analyse the existing PennyFlow project and identify how `TransactionList` and `TransactionForm` are structured, styled, and rendered across different screen sizes.
+> Make these two components fully responsive, especially on mobile screens, without affecting the existing desktop layout or functionality.
+> 
+> **Requirements:**
+> - First inspect the relevant components, parent layouts, CSS/Tailwind classes, and related files.
+> - Identify the actual causes of any responsiveness issues before making changes.
+> - Ensure proper widths, spacing, alignment, padding, and scrolling on small screens.
+> - Prevent horizontal overflow, clipped content, and overlapping elements.
+> - Preserve the existing design, colors, functionality, and component structure wherever possible.
+> - Make only the minimum necessary changes. Do not refactor unrelated code, modify other components unnecessarily, or introduce new dependencies.
+> - Test the changes at mobile, tablet, and desktop viewport sizes.
+> 
+> After implementation, summarise the issues found, files modified, changes made, and testing performed.
+
+### Prompt 40: Responsive Optimization for Authentication Pages
+> Analyse the PennyFlow project and make the **Login, Register, and Forgot Password pages** fully responsive, using the provided screenshots as visual references.
+> 
+> **Before making changes:**
+> - Inspect the relevant page components, shared layouts, CSS/Tailwind classes, and existing responsive breakpoints.
+> - Compare the current implementation with the screenshots and identify the causes of the mobile layout issues.
+> 
+> **Requirements:**
+> - Fix narrow input fields, awkward text wrapping, oversized or poorly positioned cards, button sizing, spacing, and alignment.
+> - Ensure headings, labels, forms, buttons, Google Sign-In, and navigation links fit properly on small screens.
+> - Prevent horizontal overflow, clipping, and overlapping elements.
+> - Ensure the Forgot Password flow remains usable across all its steps, including OTP verification and password reset.
+> - Preserve the existing visual design, colors, functionality, and desktop layout.
+> 
+> **Important constraints:**
+> - Make only necessary changes to achieve responsiveness.
+> - Do not rewrite components, refactor unrelated code, or introduce new dependencies.
+> - Do not modify authentication logic, API calls, routes, or form validation.
+> - Test all three pages at mobile, tablet, and desktop viewport sizes.
+> 
+> After implementation, report the issues identified, files modified, changes made, and testing results. Do not make unrelated changes.
+
+### Prompt 41: Responsive Optimization for NotFound (404) Page
+> Analyse the existing PennyFlow project and make the **NotFound (404) page** fully responsive, using the attached screenshot as a visual reference.
+> 
+> **Requirements:**
+> - Ensure the 404 heading, description, and Return to Sign In button have appropriate widths and spacing.
+> - Prevent awkward text wrapping, oversized buttons, horizontal overflow, and clipped content.
+> - Keep the page properly centered and readable on mobile, tablet, and desktop.
+> - Preserve the existing design, colors, typography, and navigation functionality.
+> 
+> **Constraints:**
+> - Make only the necessary changes.
+> - Do not refactor unrelated components or introduce new dependencies.
+> - Do not modify routing or other application functionality.
+> 
+> Test the page at mobile, tablet, and desktop viewport sizes. Finally, report the issue identified, files modified, changes made, and testing results.
+
