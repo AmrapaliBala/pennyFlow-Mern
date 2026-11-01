@@ -5,43 +5,42 @@ import GoogleSignInButton from '../components/auth/GoogleSignInButton'
 import { loginWithGoogle, registerUser } from '../services/authService'
 
 function RegisterPage() {
-  //Each statement creates a state variable and a function to update it.
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const navigate = useNavigate()//useNavigate() gives you a function for changing the current route programmatically.
+  const navigate = useNavigate()
 
   async function handleSubmit(event) {
-    event.preventDefault()//Prevents the browser's normal form submission, which would otherwise trigger a page reload.
+    event.preventDefault()
     if (password !== confirmPassword) {
       setError('Passwords do not match.')
-      return//return exits the function immediately.This means the registration API is not called when the passwords don't match.
+      return
     }
-    setError('')//setError('') clears any previous error.
-    setIsSubmitting(true)//marks the form as busy while the registration request is processed.
+    setError('')
+    setIsSubmitting(true)
 
     try {
-      await registerUser({ name, email, password })//The registerUser() function comes from your authService.js file.It sends the data to your backend using an Axios POST request
-      navigate('/dashboard')//If the backend successfully creates the account and returns the expected response, registerUser() resolves, and the user is redirected to /dashboard.
+      await registerUser({ name, email, password })
+      navigate('/dashboard')
     } catch (requestError) {
       setError(requestError.response?.data?.message ||'Unable to create your account. Please try again.',)
     } finally {
-      setIsSubmitting(false)//The finally block executes after the request succeeds or fails. It resets the loading state so the button can become enabled again.
+      setIsSubmitting(false)
     }
   }
 
   async function handleGoogleSuccess(credentialResponse) {
-    if (!credentialResponse.credential) {//Check the credential. If Google did not return a credential, set an error and stop.
+    if (!credentialResponse.credential) {
       setError('Google sign-in did not return a credential.')
       return
     }
-    setError('')//Remove any previous message and enable the loading state.
+    setError('')
     setIsSubmitting(true)
     try {
-      await loginWithGoogle(credentialResponse.credential)//loginWithGoogle() sends the credential to your backend.
+      await loginWithGoogle(credentialResponse.credential)
       navigate('/dashboard')
     } catch (requestError) {
       setError(requestError.response?.data?.message ||'Google sign-in could not be completed. Please try again.',)
@@ -96,8 +95,6 @@ function RegisterPage() {
               </label>
             </div>
 
-            {/* This uses the logical AND (&&) operator.- If error is an empty string, the error paragraph is not rendered. */}
-            {/* The role="status" attribute communicates status updates to assistive technologies. */}
             {error && (
               <p role="status" className="mt-5 rounded-xl bg-red-100 px-4 py-3 text-sm text-red-800">
                 {error}
@@ -110,8 +107,6 @@ function RegisterPage() {
             </button>
 
             <GoogleSignInButton onSuccess={handleGoogleSuccess} onError={() => setError('Google sign-in was cancelled or failed.')}/>
-              {/* onSuccess receives a successful Google credential response and calls handleGoogleSuccess.
-              onError updates the error state if the child component reports a sign-in failure or cancellation. */}
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-600">

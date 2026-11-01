@@ -1,8 +1,7 @@
-import apiClient from './apiClient'//apiClient.js configures the HTTP client, while authService.js defines the authentication operations that use it.
+import apiClient from './apiClient'
 
 const TOKEN_KEY = 'pennyflow_token'
-//Think of localStorage as browser storage that can preserve data across page reloads.
-//This is an arrow function that saves a token in browser storage.
+
 const saveToken = (token) => {
   localStorage.setItem(TOKEN_KEY, token)
 }
@@ -19,7 +18,6 @@ export const loginUser = async (credentials) => {
   return response.data
 }
 
-//emailData contains the email address.The backend processes the reset request and, according to your backend implementation, sends a reset code.return response.data returns the response to the frontend.
 export const requestPasswordReset = async (emailData) => {
   const response = await apiClient.post('/auth/forgot-password/request', emailData)
   return response.data

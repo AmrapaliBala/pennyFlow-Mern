@@ -1,20 +1,19 @@
 import { useState } from 'react'
 import { Plus } from 'lucide-react'
 
-function TransactionForm({ onAddTransaction }) {//It means the component receives a prop called onAddTransaction from its parent component.
+function TransactionForm({ onAddTransaction }) {
   const [description, setDescription] = useState('')
   const [amount, setAmount] = useState('')
   const [error, setError] = useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
-    const parsedAmount = Number(amount)//Remember, the amount received from the input is a string.Using Number() converts it into:Now it is a JavaScript number, which can be used for calculations.
+    const parsedAmount = Number(amount)
     if (!description.trim() || !amount || Number.isNaN(parsedAmount) || parsedAmount === 0) {
       setError('Enter a description and a non-zero amount.')
-      return//return immediately exits the handleSubmit() function.The transaction is not submitted.
+      return
     }
     onAddTransaction({description: description.trim(),amount: parsedAmount,})
-    //After calling the parent's function, these statements clear the form fields and any previous validation error.
     setDescription('')
     setAmount('')
     setError('')
@@ -40,7 +39,6 @@ function TransactionForm({ onAddTransaction }) {//It means the component receive
         <label className="block">
           <span className="text-lg text-slate-700">Amount</span>
           <input value={amount} onChange={(event) => setAmount(event.target.value)} type="number" step="0.01" className="mt-2 w-full rounded-xl border-2 border-slate-700 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500" placeholder="Enter amount"/>
-          {/* step="0.01" is used because financial amounts often contain decimal values (paise), not just whole numbers.The browser allows values such as:- 100  - 100.50 - 250.75 - -99.99 */}
           <span className="mt-2 block text-sm text-slate-600">
             Use a negative amount for expenses.
           </span>
@@ -51,7 +49,6 @@ function TransactionForm({ onAddTransaction }) {//It means the component receive
             {error}
           </p>
         )}
-        {/* type="submit"	Submits the form. */}
         <button type="submit" className="w-full rounded-xl bg-emerald-500 px-5 py-4 text-lg font-semibold text-white shadow-[0_5px_10px_rgba(22,163,74,0.35)] transition hover:bg-emerald-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
           Add transaction
         </button>

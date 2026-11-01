@@ -1,43 +1,41 @@
-import { useState } from 'react'//Stores and updates values inside the component.
+import { useState } from 'react'
 import { CircleDollarSign, LogIn } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'//Link Navigates to another route without reloading the entire page.useNavigate	Allows navigation through JavaScript code.
-import GoogleSignInButton from '../components/auth/GoogleSignInButton'//Your custom Google sign-in component.
-import { loginUser, loginWithGoogle } from '../services/authService'//loginUser Calls the email/password login service.
+import { Link, useNavigate } from 'react-router-dom'
+import GoogleSignInButton from '../components/auth/GoogleSignInButton'
+import { loginUser, loginWithGoogle } from '../services/authService'
 
 function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)//isSubmitting	false	Tracks whether a login request is in progress.
-  const navigate = useNavigate()//useNavigate() returns a function that lets you navigate programmatically.
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const navigate = useNavigate()
 
   async function handleSubmit(event) {
-    event.preventDefault()//preventDefault() stops that default behavior so React can handle the submission.
-    setError('')//If an earlier login attempt failed, this removes its error message before trying again.
-    setIsSubmitting(true)//This records that a login request is in progress.
-
-    try {
-      await loginUser({ email, password })//loginUser({ email, password }) calls the imported authentication service with an object containing the user's credentials.
-      navigate('/dashboard')
-    } catch (requestError) {
-      setError(requestError.response?.data?.message || 'Unable to sign in. Please try again.',)//?. is optional chaining. It safely accesses a nested property if the preceding value exists. - || provides a fallback if the backend message is missing or otherwise falsy.
-    } finally {
-      setIsSubmitting(false)//This ensures the loading state is reset after the request finishes.
-    }
-  }
-
-  async function handleGoogleSuccess(credentialResponse) {
-    //If Google doesn't provide a credential, the function sets an error and exits early. The return prevents the remaining code from running.
-    if (!credentialResponse.credential) {
-      setError('Google sign-in did not return a credential.')
-      return
-    }
-    //Clear errors and enable loading.
+    event.preventDefault()
     setError('')
     setIsSubmitting(true)
 
     try {
-      await loginWithGoogle(credentialResponse.credential)//Send the credential to your authentication service.The service sends the credential for your backend to verify and process.
+      await loginUser({ email, password })
+      navigate('/dashboard')
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || 'Unable to sign in. Please try again.',)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function handleGoogleSuccess(credentialResponse) {
+    if (!credentialResponse.credential) {
+      setError('Google sign-in did not return a credential.')
+      return
+    }
+    setError('')
+    setIsSubmitting(true)
+
+    try {
+      await loginWithGoogle(credentialResponse.credential)
       navigate('/dashboard')
     } catch (requestError) {
       setError(requestError.response?.data?.message ||'Google sign-in could not be completed. Please try again.',)
@@ -48,11 +46,11 @@ function LoginPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-emerald-100 via-[#e7f7ef] to-emerald-50 px-4 sm:px-6 lg:px-10 py-8 text-slate-800">
-      <section id="login" className="container relative mx-auto flex items-center justify-center min-h-[calc(100vh-4rem)] max-w-2xl">{/* <section> groups the login section. */}
+      <section id="login" className="container relative mx-auto flex items-center justify-center min-h-[calc(100vh-4rem)] max-w-2xl">
         <div className="w-full rounded-[2rem] bg-[#f6fcf8]/95 px-6 sm:px-10 py-10 shadow-[0_16px_40px_rgba(20,83,45,0.28)]">
           <header className="text-center">
             <div className="flex items-center justify-center gap-2 text-emerald-500">
-              <CircleDollarSign aria-hidden="true" className="h-9 w-9 fill-amber-300 stroke-emerald-600"/>{/* aria-hidden="true" → hide from assistive technologies, not visually. */}
+              <CircleDollarSign aria-hidden="true" className="h-9 w-9 fill-amber-300 stroke-emerald-600"/>
               <h1 className="font-serif text-4xl font-black tracking-tight sm:text-5xl">
                 Penny Flow
               </h1>
@@ -95,21 +93,11 @@ function LoginPage() {
             )}
 
             <button type="submit" disabled={isSubmitting} className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-4 text-lg font-semibold text-white shadow-[0_5px_10px_rgba(22,163,74,0.35)] transition hover:bg-emerald-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
-              {/* The type="submit" attribute tells the browser that this button should submit its containing form. When the user clicks it, the form's onSubmit handler runs. The browser also performs its built-in validation first, so required fields must be valid before submission proceeds.*/}
-              {/*disabled={isSubmitting} This disables the button while the login request is being processed.When the request starts, isSubmitting becomes true, and the button is disabled.After the request finishes, your finally block runs:setIsSubmitting(false)The button becomes enabled again.*/}
               <LogIn aria-hidden="true" className="h-5 w-5" />
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
 
             <GoogleSignInButton onSuccess={handleGoogleSuccess} onError={() => setError('Google sign-in was cancelled or failed.')}/>
-            {/* You pass the handleGoogleSuccess function as a prop.When Google authentication succeeds, the GoogleSignInButton component can call this function with the credential response.Your function then checks the credential, calls loginWithGoogle(), and navigates to /dashboard if the login succeeds.Notice that you're passing the function itself, not calling it immediately. */}
-            {/* This is an arrow function.When the child component invokes onError, the function updates your error state with the specified message. */}
-            {/* The error can then appear in this part of your login form:
-            {error && (
-              <p role="alert">
-                {error}
-              </p>
-            )} */}
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-600">

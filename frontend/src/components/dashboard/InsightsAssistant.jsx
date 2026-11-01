@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MessageCircle, Send, Sparkles } from 'lucide-react'
-import { requestFinancialInsight } from '../../services/insightsService'//An API service function that sends the user's question to the backend and receives an AI-generated response.
+import { requestFinancialInsight } from '../../services/insightsService'
 
 const exampleQuestions = [
   'Summarise my spending this month.',
@@ -9,26 +9,26 @@ const exampleQuestions = [
 ]
 
 function InsightsAssistant() {
-  const [question, setQuestion] = useState('')//	Stores the user's question
-  const [answer, setAnswer] = useState('')//Stores the AI-generated answer
-  const [error, setError] = useState('')//	Stores error messages
-  const [isLoading, setIsLoading] = useState(false)//Tracks whether the API request is in progress
+  const [question, setQuestion] = useState('')
+  const [answer, setAnswer] = useState('')
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
     const trimmedQuestion = question.trim()
 
     if (!trimmedQuestion) {
-      setError('Ask a question about your financial activity.')//return exits the function immediately.
-      return//The API request is not made.
+      setError('Ask a question about your financial activity.')
+      return
     }
 
-    setError('')//Clears any previous error.
-    setAnswer('')//Clears the previous AI response.
-    setIsLoading(true)//Indicates that the assistant is processing the question.
+    setError('')
+    setAnswer('')
+    setIsLoading(true)
 
     try {
-      const response = await requestFinancialInsight(trimmedQuestion)//Calls the imported service function and passes the user's question to it.
+      const response = await requestFinancialInsight(trimmedQuestion)
       setAnswer(response.answer)
     } catch (requestError) {
       if (requestError.response?.status === 401) {
@@ -36,7 +36,7 @@ function InsightsAssistant() {
       } else {
         setError(requestError.response?.data?.message ||'Unable to generate insights right now. Please try again.',)
       }
-    } finally {//This is important because the interface should stop showing the loading state once processing is complete.
+    } finally {
       setIsLoading(false)
     }
   }
@@ -71,7 +71,6 @@ function InsightsAssistant() {
         </label>
         <div className="flex flex-col sm:flex-row gap-3">
           <input id="insights-question" value={question} onChange={(event) => setQuestion(event.target.value.slice(0, 500))} placeholder="Ask a question about your finances" maxLength="500" className="min-w-0 flex-1 rounded-xl border-2 border-slate-700 bg-white px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-emerald-500"/>
-          {/*What does .slice(0, 500) do? Here, it ensures that the question does not exceed 500 characters. */}
           <button type="submit" disabled={isLoading} className="flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 font-semibold text-white shadow-[0_5px_10px_rgba(22,163,74,0.35)] transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70">
             <Send aria-hidden="true" className="h-4 w-4" />
             {isLoading ? 'Thinking...' : 'Ask'}

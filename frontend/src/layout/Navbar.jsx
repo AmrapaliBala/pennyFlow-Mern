@@ -1,22 +1,15 @@
 import { CircleDollarSign, LayoutDashboard, LogOut } from 'lucide-react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { getAuthToken, logoutUser } from '../services/authService'
-// Link navigates to another route without reloading the whole page.
-// NavLink does the same but also tells you whether its route is currently active. This is useful for highlighting the current page.
 
 function Navbar() {
-  const navigate = useNavigate()//Returns a function that lets you navigate programmatically.
-  const location = useLocation()//Returns information about the current URL, including its pathname.
+  const navigate = useNavigate()
+  const location = useLocation()
   const isSignedIn = Boolean(getAuthToken())
-  //1. getAuthToken() retrieves the saved token from localStorage.
-  //2. Boolean() converts its value into true or false.
-  // A non-empty token string	  true
-  // null (no token)	          false
-  //This variable determines which navigation links to display.
 
   function handleLogout() {
     logoutUser()
-    navigate('/login', { replace: true })//This variable determines which navigation links to display.
+    navigate('/login', { replace: true })
   }
 
   const linkClassName = ({ isActive }) =>`rounded-lg px-3 py-2 text-sm font-semibold transition ${isActive? 'bg-emerald-100 text-emerald-700': 'text-slate-600 hover:bg-emerald-50 hover:text-emerald-700'}`
