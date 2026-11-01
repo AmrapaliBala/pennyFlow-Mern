@@ -152,6 +152,7 @@ export const requestPasswordReset = async (req, res) => {
       console.error('Password reset email failed:', {
         name: error?.name,
         code: error?.code,
+        message: error?.message,
       })
 
       return res.status(500).json({
