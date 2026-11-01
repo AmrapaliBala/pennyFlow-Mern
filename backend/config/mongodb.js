@@ -12,7 +12,7 @@ async function connectDB() {
         serverSelectionTimeoutMS: 10000,
       })
 
-    console.log(`MongoDB connected: ${connection.connection.host}`)
+    console.log(`MongoDB connected`)
   } catch {
     throw new Error('Unable to connect to MongoDB.')
   }
